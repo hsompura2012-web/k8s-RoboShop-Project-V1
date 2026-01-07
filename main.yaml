@@ -17,6 +17,60 @@ data:
 ---
 
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogue
+data:
+  MONGO: "true"
+  MONGO_URL: "mongodb://mongodb-dev.harshitsompura.online:27017/catalogue"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user
+data:
+  MONGO: "true"
+  MONGO_URL: "mongodb://mongodb-dev.harshitsompura.online:27017/users"
+  REDIS_URL: "redis://redis-dev.harshitsompura.online:6379"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart
+data:
+  CATALOGUE_HOST: "catalogue"
+  CATALOGUE_PORT: "8080"
+  REDIS_HOST: "redis-dev.harshitsompura.online"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: "mysql-dev.harshitsompura.online"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment
+data:
+  CART_HOST: "cart"
+  CART_PORT: "8080"
+  USER_HOST: "user"
+  USER_PORT: "8080"
+  AMQP_HOST: "rabbitmq-dev.harshitsompura.online"
+  AMQP_USER: "roboshop"
+  AMQP_PASS: "roboshop123"
+
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: frontend
@@ -29,6 +83,84 @@ spec:
        targetPort: 80
 
 ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+spec:
+  selector:
+    project: roboshop
+    app: catalogue
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+spec:
+  selector:
+    labels:
+      project: roboshop
+      app: user
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+spec:
+  selector:
+    labels:
+      project: roboshop
+      app: cart
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+spec:
+  selector:
+    labels:
+      project: roboshop
+      app: shipping
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+spec:
+  selector:
+    labels:
+      project: roboshop
+      app: payment
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+
+---
+
 
 apiVersion: apps/v1
 kind: Deployment
@@ -56,5 +188,143 @@ spec:
             - configMapRef:
                 name: frontend
 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue
+  labels:
+    project: roboshop
+    app: catalogue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: catalogue
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: catalogue
+    spec:
+      containers:
+        - name : catalogue
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/catalogue
+          envFrom:
+            - ConfigMapRef:
+                name: catalogue
 
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  labels:
+    project: roboshop
+    app: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: user
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: user
+    spec:
+      containers:
+        - name: user
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/user
+          envFrom:
+            - configMapRef:
+                name: user
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  labels:
+    project: roboshop
+    app: cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: cart
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: cart
+    spec:
+      containers:
+        - name: cart
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/cart
+          envFrom:
+            - configMapRef:
+                name: cart
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  labels:
+    project: roboshop
+    app: shipping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: shipping
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: shipping
+    spec:
+      containers:
+        - name: shipping
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/shipping
+          envFrom:
+            - configMapRef:
+                name: shipping
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    project: roboshop
+    app: payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: roboshop
+      app: payment
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/payment
+          envFrom:
+            - configMapRef:
+                name: payment
 
