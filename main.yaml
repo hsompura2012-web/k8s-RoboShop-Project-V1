@@ -36,8 +36,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  project: roboshop
-  app: frontend
+  labels:
+    project: roboshop
+    app: frontend
 spec:
   replicas: 1
   selector:
