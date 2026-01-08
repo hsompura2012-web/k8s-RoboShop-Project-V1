@@ -339,7 +339,7 @@ spec:
 ---
 
 apiVersion: batch/v1
-kind: job
+kind: Job
 metadata:
   name: catalogue-schema
 spec:
@@ -360,7 +360,7 @@ spec:
 ---
 
 apiVersion: batch/v1
-kind: job
+kind: Job
 metadata:
   name: shipping-app-user
 spec:
@@ -381,7 +381,7 @@ spec:
 ---
 
 apiVersion: batch/v1
-kind: job
+kind: Job
 metadata:
   name: shipping-schema
 spec:
@@ -403,7 +403,7 @@ spec:
 ---
 
 apiVersion: batch/v1
-kind: job
+kind: Job
 metadata:
   name: shipping-master-data
 spec:
