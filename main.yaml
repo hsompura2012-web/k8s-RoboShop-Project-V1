@@ -355,7 +355,7 @@ spec:
           - configMapRef:
                name: catalogue
       restartPolicy: Never
-    backoffLimit: 0
+  backoffLimit: 0
 
 ---
 
@@ -376,7 +376,7 @@ spec:
           - configMapRef:
                 name: shipping
           restartPolicy: Never
-      backoffLimit: 0
+    backoffLimit: 0
 
 ---
 
@@ -397,7 +397,7 @@ spec:
           - configMapRef:
                  name: shipping
           restartPolicy: Never
-      backoffLimit: 0
+    backoffLimit: 0
 
 
 ---
@@ -419,5 +419,5 @@ spec:
           - configMapRef:
                 name: shipping
           restartPolicy: Never
-      backoffLimit: 0
+    backoffLimit: 0
 
