@@ -352,9 +352,9 @@ spec:
             - name: SCHEMA_FILE
               value: db/master-data.js
           envFrom:
-            - configMapRef:
-                name: catalogue
-          restartPolicy: never
+          - configMapRef:
+               name: catalogue
+      restartPolicy: Never
     backoffLimit: 0
 
 ---
@@ -367,16 +367,16 @@ spec:
   template:
     spec:
       containers:
-        - name: schema
+        - name: app-user
           image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
           env:
             - name: SCHEMA_FILE
               value: db/app-user.sql
-              envFrom:
-              - configMapRef:
-                  name: shipping
-              restartPolicy: never
-          backoffLimit: 0
+          envFrom:
+          - configMapRef:
+                name: shipping
+          restartPolicy: Never
+      backoffLimit: 0
 
 ---
 
@@ -393,11 +393,11 @@ spec:
           env:
             - name: SCHEMA_FILE
               value: db/schema.sql
-              envFrom:
-                - configMapRef:
-                    name: shipping
-              restartPolicy: never
-          backoffLimit: 0
+          envFrom:
+          - configMapRef:
+                 name: shipping
+          restartPolicy: Never
+      backoffLimit: 0
 
 
 ---
@@ -415,9 +415,9 @@ spec:
           env:
             - name: SCHEMA_FILE
               value: db/master-data.sql
-              envFrom:
-                - configMapRef:
-                    name: shipping
-              restartPolicy: never
-          backoffLimit: 0
+          envFrom:
+          - configMapRef:
+                name: shipping
+          restartPolicy: Never
+      backoffLimit: 0
 
