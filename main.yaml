@@ -375,7 +375,7 @@ spec:
           envFrom:
           - configMapRef:
                 name: shipping
-          restartPolicy: Never
+      restartPolicy: Never
   backoffLimit: 0
 
 ---
@@ -396,7 +396,7 @@ spec:
           envFrom:
           - configMapRef:
                  name: shipping
-          restartPolicy: Never
+      restartPolicy: Never
   backoffLimit: 0
 
 
@@ -418,6 +418,6 @@ spec:
           envFrom:
           - configMapRef:
                 name: shipping
-          restartPolicy: Never
+      restartPolicy: Never
   backoffLimit: 0
 
