@@ -15,7 +15,6 @@ data:
   PAYMENT_PORT: "8080"
 
 ---
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
